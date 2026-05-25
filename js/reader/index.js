@@ -270,13 +270,23 @@ class MangaReader {
         document.documentElement.setAttribute('data-theme', theme);
     }
     
-    toggleFullscreen() {
+    async toggleFullscreen() {
         if (document.fullscreenElement) {
             document.exitFullscreen();
             this.isFullscreen = false;
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
         } else {
-            document.documentElement.requestFullscreen();
+            await document.documentElement.requestFullscreen();
             this.isFullscreen = true;
+            if (screen.orientation && screen.orientation.lock) {
+                try {
+                    await screen.orientation.lock('portrait');
+                } catch (e) {
+                    console.log('Screen orientation lock not supported');
+                }
+            }
         }
     }
     

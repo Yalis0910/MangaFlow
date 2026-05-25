@@ -2,6 +2,8 @@
 
 A modern, immersive manga reader with smooth vertical scrolling experience. Pure frontend implementation, no backend required.
 
+**Live Demo:** https://manga.yalis.cn/
+
 [中文文档](README_CN.md)
 
 ## Features

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+    <title>MangaFlow</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/reader.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app" class="app">
+        <div id="welcome-screen" class="welcome-screen">
+            <div class="welcome-content">
+                <div class="welcome-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+                    </svg>
+                </div>
+                <h1 class="welcome-title">MangaFlow</h1>
+                <p class="welcome-subtitle">Immersive vertical scrolling manga reader</p>
+                
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+                        </svg>
+                    </div>
+                    <p class="upload-text">拖拽图片、文件夹或压缩包到此处</p>
+                    <p class="upload-hint">支持 JPG、PNG、WEBP、GIF、AVIF、ZIP 格式</p>
+                    
+                    <div class="upload-buttons">
+                        <button class="btn btn-secondary" id="btn-select-files">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" t="1779695632220" class="icon" viewBox="0 0 1024 1024" version="1.1" p-id="1697" width="17" height="17">
+                                <path d="M831.792397 82.404802 191.548594 82.404802c-60.676941 0-110.042255 49.364291-110.042255 110.042255l0 640.245849c0 60.677964 49.364291 110.042255 110.042255 110.042255l640.244826 0c60.677964 0 110.042255-49.364291 110.042255-110.042255L941.835675 192.447057C941.834652 131.769093 892.470361 82.404802 831.792397 82.404802zM191.548594 122.420167l640.244826 0c38.612413 0 70.02689 31.414477 70.02689 70.02689l0 134.349871c-144.759965 4.953825-280.06151 63.59234-382.864898 166.396751-48.28061 48.28061-86.814228 103.732549-114.628714 163.962306-80.588433-68.744687-197.638289-73.051783-282.803971-12.938684L121.522728 192.447057C121.521704 153.834644 152.935158 122.420167 191.548594 122.420167zM121.521704 832.691883l0-136.601144c74.040297-72.025407 192.529945-71.925123 266.451538 0.301875-23.496134 62.998823-35.762505 130.383536-35.762505 199.672622 0 2.336208 0.420579 4.569062 1.157359 6.652514L191.548594 902.717749C152.935158 902.718773 121.521704 871.304296 121.521704 832.691883zM831.792397 902.718773 391.068743 902.718773c0.735757-2.084475 1.157359-4.317329 1.157359-6.652514 0-141.581576 55.054897-274.608312 155.023726-374.578164 95.245248-95.245248 220.499973-149.720953 354.570481-154.655336l0 465.860147C901.819287 871.304296 870.40481 902.718773 831.792397 902.718773z" fill="#1a1a1a" p-id="1698"/><path d="M349.471346 477.533001c75.04723 0 136.102794-61.054541 136.102794-136.101771s-61.055564-136.102794-136.102794-136.102794-136.102794 61.055564-136.102794 136.102794S274.424116 477.533001 349.471346 477.533001zM349.471346 245.343801c52.982702 0 96.087429 43.104727 96.087429 96.087429 0 52.982702-43.104727 96.087429-96.087429 96.087429-52.982702 0-96.087429-43.104727-96.087429-96.087429C253.383918 288.448528 296.488645 245.343801 349.471346 245.343801z" fill="#1a1a1a" p-id="1699"/>
+                            </svg>
+                            选择图片
+                        </button>
+                        <button class="btn btn-secondary" id="btn-select-folder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"/>
+                            </svg>
+                            选择文件夹
+                        </button>
+                        <button class="btn btn-secondary" id="btn-select-zip">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" t="1779695781398" class="icon" viewBox="0 0 1024 1024" version="1.1" p-id="2896" width="17" height="17">
+                                <path d="M937.984 102.4H91.136c-46.08 0-83.456 37.376-83.456 83.456v650.752c0 46.08 37.376 83.456 83.456 83.456h846.848c46.08 0 83.456-37.376 83.456-83.456V185.856c0-46.08-37.376-83.456-83.456-83.456z m22.016 734.208c0 12.288-9.728 22.016-22.016 22.016H91.136c-12.288 0-22.016-9.728-22.016-22.016V185.856c0-12.288 9.728-22.016 22.016-22.016H332.8v91.648h96.768V163.84h508.416c12.288 0 22.016 9.728 22.016 22.016v650.752z" fill="#646464" p-id="2897"/><path d="M429.568 257.024h96.256V353.28H429.568zM333.312 353.28h96.256v96.256H333.312zM431.104 451.072H527.36v96.256H431.104zM333.824 548.352H430.08v96.256H333.824z" fill="#646464" p-id="2898"/>
+                            </svg>
+                            选择压缩包
+                        </button>
+                    </div>
+                </div>
+                
+                <input type="file" id="file-input" multiple accept="image/*" hidden>
+                
+                <button class="theme-toggle-btn" id="btn-welcome-theme" title="切换主题">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="reader-screen" class="reader-screen hidden">
+            <div class="toolbar" id="toolbar">
+                <div class="toolbar-top">
+                    <button class="toolbar-btn" id="btn-back" title="返回">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                        </svg>
+                    </button>
+                    <span class="toolbar-title" id="toolbar-title">漫画阅读器</span>
+                    <div class="toolbar-actions">
+                        <button class="toolbar-btn" id="btn-zoom-out" title="缩小">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6"/>
+                            </svg>
+                        </button>
+                        <span class="zoom-level" id="zoom-level">100%</span>
+                        <button class="toolbar-btn" id="btn-zoom-in" title="放大">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"/>
+                            </svg>
+                        </button>
+                        <button class="toolbar-btn" id="btn-theme" title="切换主题">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                            </svg>
+                        </button>
+                        <button class="toolbar-btn" id="btn-fullscreen" title="全屏">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reader-container" id="reader-container">
+                <div class="image-list" id="image-list"></div>
+            </div>
+            
+            <div class="progress-bar" id="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+                <div class="progress-thumb" id="progress-thumb"></div>
+            </div>
+            
+            <div class="bottom-bar" id="bottom-bar">
+                <span class="page-info" id="page-info">1 / 1</span>
+                <button class="toolbar-btn" id="btn-thumbnails" title="缩略图">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="thumbnail-panel hidden" id="thumbnail-panel">
+            <div class="thumbnail-header">
+                <span class="thumbnail-title">缩略图导航</span>
+                <button class="toolbar-btn" id="btn-close-thumbnails">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="thumbnail-grid" id="thumbnail-grid"></div>
+        </div>
+        
+        <div class="loading-overlay hidden" id="loading-overlay">
+            <div class="loading-spinner"></div>
+            <span class="loading-text">加载中...</span>
+        </div>
+        
+        <div class="toast hidden" id="toast"></div>
+    </div>
+
+    <script>
+        console.log(
+        '%c MangaFlow v1.0.0 %c https://github.com/Yalis0910/MangaFlow ',
+        'background: #0ea5e9; color: white; padding: 4px 8px; font-weight: bold;',
+        'background: #e0f2fe; color: #0284c7; padding: 4px 8px;'
+        );
+        console.log(`%c              ('-.                        .-')    
+             ( OO ).-.                   ( OO ).  
+  ,--.   ,--./ . --. / ,--.      ,-.-') (_)---\\_) 
+   \\  \`.'  / | \\-.  \\  |  |.-')  |  |OO)/    _ |  
+ .-')     /.-'-'  |  | |  | OO ) |  |  \\\\  :\` \`.  
+(OO  \\   /  \\| |_.'  | |  |\`-' | |  |(_/ '..\`''.) 
+ |   /  /\\_  |  .-.  |(|  '---.',|  |_.'.-._)   \\ 
+ \`-./  /.__) |  | |  | |      |(_|  |   \\       / 
+   \`--'      \`--' \`--' \`------'  \`--'    \`-----'  `, 'color: #bf5af2; font-size: 12px; font-weight: bold;');
+    </script>
+    
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/archive.js"></script>
+    <script src="js/utils/file.js"></script>
+    <script src="js/utils/dom.js"></script>
+    <script src="js/reader/lazy-loader.js"></script>
+    <script src="js/reader/progress.js"></script>
+    <script src="js/reader/zoom.js"></script>
+    <script src="js/events/keyboard.js"></script>
+    <script src="js/events/gesture.js"></script>
+    <script src="js/components/toolbar.js"></script>
+    <script src="js/components/thumbnail.js"></script>
+    <script src="js/reader/index.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

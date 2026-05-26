@@ -14,6 +14,10 @@ A modern, immersive manga reader with smooth vertical scrolling experience. Pure
   - Select folder (File System Access API)
   - Drag & drop support
   - Archive files (ZIP, CBZ, 7Z, CB7, RAR, CBR, TAR, etc.)
+- **History Records** - Quick access to recently opened folders/archives
+  - Auto-save file handles with thumbnails
+  - Custom notes for each record
+  - One-click to resume reading
 - **Lazy Loading** - Efficient image loading with Intersection Observer
 - **Progress Tracking** - Auto-save reading progress, resume where you left off
 - **Draggable Progress Bar** - Jump to any page by dragging
@@ -109,13 +113,15 @@ mangaflow/
 │   │   └── zoom.js          # Zoom controls
 │   ├── components/
 │   │   ├── toolbar.js       # Toolbar component
-│   │   └── thumbnail.js     # Thumbnail panel
+│   │   ├── thumbnail.js     # Thumbnail panel
+│   │   └── history-panel.js # History records panel
 │   ├── events/
 │   │   ├── keyboard.js      # Keyboard event handling
 │   │   └── gesture.js       # Touch gesture handling
 │   └── utils/
 │       ├── archive.js       # libarchive.js wrapper
 │       ├── file.js          # File handling utilities
+│       ├── file-handle-store.js  # File handle storage (IndexedDB)
 │       ├── storage.js       # IndexedDB storage
 │       └── dom.js           # DOM utilities
 ├── lib/
@@ -156,14 +162,14 @@ mangaflow/
 
 ## Browser Support
 
-| Browser | Support |
-|---------|---------|
-| Chrome | ✅ Full support |
-| Firefox | ✅ Full support |
-| Safari | ✅ Full support |
-| Edge | ✅ Full support |
+| Browser | Support | History Feature |
+|---------|---------|-----------------|
+| Chrome | ✅ Full support | ✅ Supported |
+| Edge | ✅ Full support | ✅ Supported |
+| Firefox | ✅ Full support | ❌ Not supported |
+| Safari | ✅ Full support | ❌ Not supported |
 
-Note: File System Access API (folder selection) is only available in Chromium-based browsers.
+Note: History Records feature requires File System Access API which is only available in Chromium-based browsers (Chrome, Edge, Opera). Firefox/Safari will hide the history button.
 
 ## License
 

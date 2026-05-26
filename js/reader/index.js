@@ -5,6 +5,9 @@ class MangaReader {
         this.currentIndex = 0;
         this.isFullscreen = false;
         this.theme = Storage.getTheme();
+        this.currentHandle = null;
+        this.currentHandleType = null;
+        this.currentHandleName = null;
         
         this.lazyLoader = null;
         this.progress = null;
@@ -13,6 +16,7 @@ class MangaReader {
         this.gesture = null;
         this.toolbar = null;
         this.thumbnail = null;
+        this.historyPanel = null;
         
         this.init();
     }
@@ -21,6 +25,11 @@ class MangaReader {
         await Storage.init();
         this.applyTheme(this.theme);
         this.initComponents();
+        try {
+            await this.historyPanel.init();
+        } catch (e) {
+            console.error('HistoryPanel init error:', e);
+        }
         this.bindEvents();
         this.bindScrollEvents();
     }
@@ -33,6 +42,7 @@ class MangaReader {
         this.gesture = new GestureManager(this);
         this.toolbar = new Toolbar(this);
         this.thumbnail = new ThumbnailPanel(this);
+        this.historyPanel = new HistoryPanel(this);
     }
     
     bindEvents() {
@@ -47,18 +57,22 @@ class MangaReader {
             }
         });
         
+        if (!FileUtils.hasFileSystemAccess()) {
+            DOM.hide(DOM.$('#btn-history'));
+        }
+        
         DOM.$('#btn-select-folder').addEventListener('click', async () => {
-            const files = await FileUtils.selectFolder();
-            if (files.length > 0) {
-                this.loadImages(files);
+            const result = await FileUtils.selectFolderWithHandle();
+            if (result.files.length > 0) {
+                this.loadImagesWithHandle(result.files, result.handle, result.handle ? 'folder' : null, result.handle ? result.handle.name : null);
             }
         });
         
         DOM.$('#btn-select-zip').addEventListener('click', async () => {
             DOM.showLoading();
-            const files = await FileUtils.selectArchive();
-            if (files.length > 0) {
-                this.loadImages(files);
+            const result = await FileUtils.selectArchiveWithHandle();
+            if (result.files.length > 0) {
+                this.loadImagesWithHandle(result.files, result.handle, result.handle ? 'archive' : null, result.handle ? result.handle.name : null);
             } else {
                 DOM.hideLoading();
             }
@@ -148,6 +162,51 @@ class MangaReader {
         this.toolbar.setTitle(`${files.length} 张图片`);
         DOM.hideLoading();
         this.toolbar.show();
+    }
+    
+    async loadImagesWithHandle(files, handle, type, name) {
+        DOM.showLoading();
+        
+        this.images = files;
+        this.mangaId = FileUtils.generateId(files);
+        this.currentHandle = handle;
+        this.currentHandleType = type;
+        this.currentHandleName = name;
+        
+        this.progress.setManga(this.mangaId, files.length);
+        this.render();
+        await this.thumbnail.generate(files);
+        
+        DOM.hide(DOM.$('#welcome-screen'));
+        DOM.show(DOM.$('#reader-screen'));
+        
+        const savedProgress = await this.progress.load();
+        if (savedProgress) {
+            this.goTo(savedProgress.pageIndex);
+            if (savedProgress.scrollPosition) {
+                DOM.$('#reader-container').scrollTop = savedProgress.scrollPosition;
+            }
+        }
+        
+        this.toolbar.setTitle(`${files.length} 张图片`);
+        DOM.hideLoading();
+        this.toolbar.show();
+        
+        if (handle && type && name) {
+            var thumbnail = null;
+            if (files.length > 0) {
+                try {
+                    thumbnail = await ThumbnailGenerator.generate(files[0]);
+                } catch (e) {
+                    console.error('Thumbnail generation failed:', e);
+                }
+            }
+            await FileHandleStore.saveHandle(null, name, type, handle, { 
+                fileCount: files.length, 
+                thumbnail: thumbnail 
+            });
+            this.historyPanel.render();
+        }
     }
     
     render() {

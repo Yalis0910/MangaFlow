@@ -1,7 +1,7 @@
 const Storage = {
     db: null,
     dbName: 'MangaReaderDB',
-    dbVersion: 1,
+    dbVersion: 2,
     
     async init() {
         return new Promise((resolve, reject) => {
@@ -20,6 +20,9 @@ const Storage = {
                 }
                 if (!db.objectStoreNames.contains('settings')) {
                     db.createObjectStore('settings', { keyPath: 'key' });
+                }
+                if (!db.objectStoreNames.contains('fileHandles')) {
+                    db.createObjectStore('fileHandles', { keyPath: 'id' });
                 }
             };
         });

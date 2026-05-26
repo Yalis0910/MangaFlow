@@ -191,6 +191,68 @@ const FileUtils = {
         return files;
     },
     
+    hasFileSystemAccess() {
+        return 'showDirectoryPicker' in window && 'showOpenFilePicker' in window;
+    },
+    
+    async selectFolderWithHandle() {
+        if (!this.hasFileSystemAccess()) {
+            const files = await this.selectFolder();
+            return { files: files, handle: null };
+        }
+        try {
+            const dirHandle = await window.showDirectoryPicker();
+            const files = await this.loadFromDirectoryHandle(dirHandle);
+            return { files: files, handle: dirHandle };
+        } catch (e) {
+            if (e.name === 'AbortError') {
+                return { files: [], handle: null };
+            }
+            console.error('Folder selection error:', e);
+            return { files: [], handle: null };
+        }
+    },
+    
+    async selectArchiveWithHandle() {
+        if (!this.hasFileSystemAccess()) {
+            const files = await this.selectArchive();
+            return { files: files, handle: null };
+        }
+        try {
+            const fileHandles = await window.showOpenFilePicker({
+                types: [{
+                    description: 'Archive Files',
+                    accept: {
+                        'application/octet-stream': ['.zip', '.cbz', '.7z', '.cb7', '.rar', '.cbr', '.tar', '.gz', '.tgz', '.bz2', '.tbz2', '.xz', '.txz']
+                    }
+                }],
+                multiple: false
+            });
+            const file = await fileHandles[0].getFile();
+            const files = await this.extractArchive(file);
+            return { files: files, handle: fileHandles[0] };
+        } catch (e) {
+            if (e.name === 'AbortError') {
+                return { files: [], handle: null };
+            }
+            console.error('Archive selection error:', e);
+            return { files: [], handle: null };
+        }
+    },
+    
+    async loadFromDirectoryHandle(dirHandle) {
+        const files = [];
+        for await (const entry of dirHandle.values()) {
+            if (entry.kind === 'file') {
+                const file = await entry.getFile();
+                if (this.isImageFile(file)) {
+                    files.push(file);
+                }
+            }
+        }
+        return this.sortFiles(files);
+    },
+    
     generateId(files) {
         const names = files.map(f => f.name).join(',');
         let hash = 0;

@@ -14,6 +14,10 @@
   - 选择文件夹
   - 拖拽上传
   - 压缩包（支持 ZIP、CBZ、7Z、RAR 等多种格式）
+- **历史记录** - 快速访问最近打开的文件夹/压缩包
+  - 自动保存文件句柄和缩略图
+  - 支持自定义备注名称
+  - 一键继续阅读
 - **图片懒加载** - 高效的图片加载机制
 - **阅读进度保存** - 自动保存进度，下次打开继续阅读
 - **可拖拽进度条** - 拖动进度条快速跳转
@@ -109,13 +113,15 @@ mangaflow/
 │   │   └── zoom.js          # 缩放控制
 │   ├── components/
 │   │   ├── toolbar.js       # 工具栏组件
-│   │   └── thumbnail.js     # 缩略图面板
+│   │   ├── thumbnail.js     # 缩略图面板
+│   │   └── history-panel.js # 历史记录面板
 │   ├── events/
 │   │   ├── keyboard.js      # 键盘事件
 │   │   └── gesture.js       # 触摸手势
 │   └── utils/
 │       ├── archive.js       # libarchive.js 封装
 │       ├── file.js          # 文件处理工具
+│       ├── file-handle-store.js  # 文件句柄存储
 │       ├── storage.js       # IndexedDB 存储
 │       └── dom.js           # DOM 工具函数
 ├── lib/
@@ -156,14 +162,14 @@ mangaflow/
 
 ## 浏览器支持
 
-| 浏览器 | 支持情况 |
-|---------|---------|
-| Chrome | ✅ 完全支持 |
-| Firefox | ✅ 完全支持 |
-| Safari | ✅ 完全支持 |
-| Edge | ✅ 完全支持 |
+| 浏览器 | 支持情况 | 历史记录 |
+|---------|---------|---------|
+| Chrome | ✅ 完全支持 | ✅ 支持 |
+| Edge | ✅ 完全支持 | ✅ 支持 |
+| Firefox | ✅ 完全支持 | ❌ 不支持 |
+| Safari | ✅ 完全支持 | ❌ 不支持 |
 
-注意：File System Access API（文件夹选择）仅 Chromium 内核浏览器支持。
+注意：历史记录功能需要 File System Access API，仅 Chromium 内核浏览器（Chrome、Edge、Opera）支持。Firefox/Safari 会自动隐藏历史记录按钮。
 
 ## 许可证
 

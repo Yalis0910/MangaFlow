@@ -182,3 +182,21 @@ input[type="file"] {
         width: 0.25rem;
     }
 }
+
+.github-link {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-left: 1rem;
+    transition: all 0.2s ease;
+}
+
+.github-link:hover {
+    transform: translateY(-1px);
+}
+
+.github-icon path {
+    fill: var(--text-color);
+    transition: fill 0.2s ease;
+}
+

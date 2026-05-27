@@ -14,7 +14,7 @@ A modern, immersive manga reader with smooth vertical scrolling experience. Pure
   - Select folder (File System Access API)
   - Drag & drop support
   - Archive files (ZIP, CBZ, 7Z, CB7, RAR, CBR, TAR, etc.)
-- **History Records** - Quick access to recently opened folders/archives
+- **History Records(PC only)** - Quick access to recently opened folders/archives
   - Auto-save file handles with thumbnails
   - Custom notes for each record
   - One-click to resume reading
@@ -164,12 +164,35 @@ mangaflow/
 
 | Browser | Support | History Feature |
 |---------|---------|-----------------|
-| Chrome | ✅ Full support | ✅ Supported |
-| Edge | ✅ Full support | ✅ Supported |
+| Chrome (PC) | ✅ Full support | ✅ Supported |
+| Edge (PC) | ✅ Full support | ✅ Supported |
+| Chrome (Android) | ✅ Full support | ❌ Not supported |
 | Firefox | ✅ Full support | ❌ Not supported |
-| Safari | ✅ Full support | ❌ Not supported |
+| Safari (iOS/macOS) | ✅ Full support | ❌ Not supported |
 
-Note: History Records feature requires File System Access API which is only available in Chromium-based browsers (Chrome, Edge, Opera). Firefox/Safari will hide the history button.
+### History Records Limitations
+
+The History Records feature requires **File System Access API** to persist file handles across sessions. This API has significant limitations:
+
+**Why it doesn't work on mobile browsers:**
+
+1. **Android Chrome**: Although the API technically exists, it has unreliable behavior:
+   - Permission requests may fail silently
+   - Stored handles often lose validity after browser restart
+   - File access becomes inconsistent
+
+2. **iOS Safari**: Does not support File System Access API at all
+
+3. **Firefox/Safari (Desktop)**: Do not support File System Access API
+
+**Why OPFS (Origin Private File System) is not a solution:**
+
+- OPFS is a virtual file system that can store files, but has limited quota (~100-500MB)
+- Manga files are typically 50-200MB each, storing multiple would exceed quota
+- Copying large files to OPFS is slow and impacts user experience
+- iOS Safari doesn't support OPFS either
+
+For these reasons, the History Records feature is only available on **PC Chrome/Edge**, and the button is automatically hidden on unsupported platforms.
 
 ## License
 
